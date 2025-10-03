@@ -1,18 +1,26 @@
-<script lang="ts" setup>
-import BasicLayout from "./layouts/BasicLayout.vue";
+<script setup lang="ts">
+import {computed} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
+const default_layout = "default"
+const isRouterAlive = true
+console.log(route.meta.layout);
+
+const layout = computed(() => {
+  return (route.meta.layout || default_layout) + '-layout'
+});
 
 </script>
 
 <template>
   <div id="app">
-      <BasicLayout/>
+    <component :is="layout">
+      <router-view v-if="isRouterAlive && $route.meta.isShow"/>
+    </component>
   </div>
-  <div class="van-safe-area-bottom"></div>
 </template>
 
 <style scoped>
-#app {
-  padding: 0 0;
-  margin: 0 auto;
-}
+
 </style>
